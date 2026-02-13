@@ -1,0 +1,9 @@
+# Secrets
+settings.toml
+
+# macOS cruft
+.DS_Store
+
+# Editors
+*.swp
+*.swo
