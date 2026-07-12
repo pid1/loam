@@ -7,3 +7,7 @@ settings.toml
 # Editors
 *.swp
 *.swo
+
+# Python bytecode
+__pycache__/
+*.pyc

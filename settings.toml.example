@@ -9,6 +9,10 @@ MOISTURE_THRESHOLD_HIGH = 600
 SLEEP_DURATION = 86400
 WIFI_CONNECT_TIMEOUT_S = 20
 
+# Only notify when moisture is below this value.
+# Defaults to MOISTURE_THRESHOLD_LOW if unset.
+NOTIFICATION_THRESHOLD = 400
+
 # Moisture thresholds (typical range: ~200 dry to ~2000 wet)
 MOISTURE_THRESHOLD_LOW=400
 MOISTURE_THRESHOLD_HIGH=2000

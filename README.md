@@ -58,6 +58,7 @@ Environment variables in `settings.toml` control behavior:
 
 - `MOISTURE_THRESHOLD_LOW` — Below this value, a DRY alert is sent. Default: `400`.
 - `MOISTURE_THRESHOLD_HIGH` — Above this value, a WET notice is sent. Default: `600`.
+- `NOTIFICATION_THRESHOLD` — A Pushover notification is only sent when moisture is below this value. Defaults to `MOISTURE_THRESHOLD_LOW`.
 - `SLEEP_DURATION` — Seconds between readings. Default: `86400` (24 hours).
 - `WIFI_CONNECT_TIMEOUT_S` — How long to try connecting to WiFi before proceeding offline. Default: `20` seconds.
 
@@ -68,7 +69,7 @@ On each wake cycle, the board:
 1. Disables the onboard NeoPixel to save power
 2. Tries to connect to WiFi with a timeout; continues offline if unavailable
 3. Reads moisture and temperature from the soil sensor via I2C
-4. Sends a Pushover notification (DRY alert, OK notice, or WET notice)
+4. Sends a Pushover notification if moisture is below `NOTIFICATION_THRESHOLD`
 5. Releases the I2C bus and enters deep sleep
 
 Deep sleep restarts `code.py` from scratch on each wake, so no state is preserved between cycles.
