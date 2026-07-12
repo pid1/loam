@@ -98,4 +98,4 @@ The soil sensor stays powered during deep sleep since the QT Py ESP32-S3 does no
 
 ## License
 
-MIT
+bsd-3-clause. see [LICENSE](./LICENSE).
