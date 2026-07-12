@@ -21,6 +21,12 @@ WIFI_CONNECT_TIMEOUT_S = int(os.getenv("WIFI_CONNECT_TIMEOUT_S", "20"))
 MOISTURE_THRESHOLD_LOW = int(os.getenv("MOISTURE_THRESHOLD_LOW", "400"))
 MOISTURE_THRESHOLD_HIGH = int(os.getenv("MOISTURE_THRESHOLD_HIGH", "600"))
 
+# Only send a Pushover notification when moisture is below this value.
+# Defaults to MOISTURE_THRESHOLD_LOW so we only alert when the soil is dry.
+NOTIFICATION_THRESHOLD = int(
+    os.getenv("NOTIFICATION_THRESHOLD", str(MOISTURE_THRESHOLD_LOW))
+)
+
 # Pushover credentials from environment
 PUSHOVER_TOKEN = os.getenv("PUSHOVER_API_KEY")
 PUSHOVER_USER = os.getenv("PUSHOVER_USER_KEY")
@@ -90,8 +96,11 @@ try:
         priority = -1
     print(message)
 
-    # Send Pushover if configured and online
-    if PUSHOVER_TOKEN and PUSHOVER_USER and requests:
+    # Only notify when moisture is below the notification threshold
+    should_notify = moisture < NOTIFICATION_THRESHOLD
+
+    # Send Pushover if below threshold, configured, and online
+    if should_notify and PUSHOVER_TOKEN and PUSHOVER_USER and requests:
         data = {
             "token": PUSHOVER_TOKEN,
             "user": PUSHOVER_USER,
@@ -108,6 +117,11 @@ try:
         except Exception as e:
             print(f"Pushover error: {e}")
     else:
+        if not should_notify:
+            print(
+                f"Moisture {moisture} >= notification threshold "
+                f"{NOTIFICATION_THRESHOLD}; skipping notification"
+            )
         if not (PUSHOVER_TOKEN and PUSHOVER_USER):
             print("Pushover credentials not configured")
         if not connected:
