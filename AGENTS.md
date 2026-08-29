@@ -18,6 +18,7 @@ loam is a CircuitPython plant soil moisture monitor that runs on an Adafruit QT 
 - `.gitignore` — Ensures `settings.toml` isn’t committed.
 
 The `lib/` directory on the CIRCUITPY drive (not in this repo) must contain:
+
 - `adafruit_seesaw/`
 - `adafruit_bus_device/`
 - `adafruit_requests.mpy`
@@ -36,15 +37,18 @@ The `lib/` directory on the CIRCUITPY drive (not in this repo) must contain:
 ## Sensor & Threshold Details
 
 The STEMMA Soil Sensor uses the seesaw I2C protocol at address `0x36`. It provides:
+
 - `moisture_read()` — Capacitive moisture reading. Range: ~200 (very dry) to ~2000 (very wet). Typical soil: 300–500.
 - `get_temp()` — Chip temperature in Celsius (approximate, not precision).
 
 Thresholds (configurable via `settings.toml`):
+
 - `MOISTURE_THRESHOLD_LOW` — Below this value a DRY alert (priority=1) is sent.
 - `MOISTURE_THRESHOLD_HIGH` — Above this value a WET notice (priority=0) is sent.
 - Between the two, an OK notice (priority=-1) is sent.
 
 Networking:
+
 - `WIFI_CONNECT_TIMEOUT_S` — Seconds to wait for WiFi before proceeding offline.
 
 ## Coding Conventions
