@@ -1,0 +1,4 @@
+# super-linter reads linter configs from LINTER_RULES_PATH rather than the
+# project root, and falls back to its own defaults when none is present.
+# Declaring it here keeps a local run and CI in agreement.
+line-length = 88
