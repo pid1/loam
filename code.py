@@ -3,15 +3,15 @@ import os
 import ssl
 import time
 
+# Third-party library imports
+import adafruit_requests
+
 # CircuitPython built-in imports
 import alarm
 import board
 import digitalio
 import socketpool
 import wifi
-
-# Third-party library imports
-import adafruit_requests
 from adafruit_seesaw.seesaw import Seesaw
 
 # --- Configuration (env-overridable) ---
@@ -79,14 +79,10 @@ try:
 
     # Decide state and message
     if moisture < MOISTURE_THRESHOLD_LOW:
-        message = (
-            f"🌱 Soil is DRY. Moisture={moisture} (<{MOISTURE_THRESHOLD_LOW})"
-        )
+        message = f"🌱 Soil is DRY. Moisture={moisture} (<{MOISTURE_THRESHOLD_LOW})"
         priority = 1
     elif moisture > MOISTURE_THRESHOLD_HIGH:
-        message = (
-            f"💧 Soil is WET. Moisture={moisture} (>{MOISTURE_THRESHOLD_HIGH})"
-        )
+        message = f"💧 Soil is WET. Moisture={moisture} (>{MOISTURE_THRESHOLD_HIGH})"
         priority = 0  # informational
     else:
         message = (
@@ -109,9 +105,7 @@ try:
             "priority": priority,
         }
         try:
-            resp = requests.post(
-                "https://api.pushover.net/1/messages.json", data=data
-            )
+            resp = requests.post("https://api.pushover.net/1/messages.json", data=data)
             print(f"Pushover: {resp.status_code}")
             resp.close()
         except Exception as e:
@@ -137,4 +131,3 @@ finally:
     time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + SLEEP_DURATION)
     print(f"Sleeping for {SLEEP_DURATION}s...")
     alarm.exit_and_deep_sleep_until_alarms(time_alarm)
-
