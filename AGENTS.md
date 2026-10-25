@@ -56,3 +56,13 @@ Networking:
 - Group imports: standard library, CircuitPython built-ins, third-party libraries (alphabetized within each group).
 - Keep `code.py` as a single flat script — CircuitPython deep sleep re-runs the file from the top, so class hierarchies and module structures add complexity without benefit.
 - Wrap network calls in try/except — WiFi and HTTP can fail, and the board should still sleep on failure rather than crash-looping.
+
+## Sadr
+
+### Build and test
+- The repo has no tests, no build and no package manager. The substitute check is `python3 -m py_compile code.py`, which checks the syntax of `code.py` only.
+- The host cannot run `code.py`. It needs CircuitPython 10.x on the QT Py ESP32-S3 with the soil sensor attached, and it imports modules (`alarm`, `board`, `wifi`) that exist only on the board.
+
+### Toolchain
+- No package manager and no lockfile. The CircuitPython libraries live on the CIRCUITPY drive, outside the repo, so Sadr has no dependency to upgrade or date.
+- CI runs only `.github/workflows/semgrep.yml`, with `semgrep/semgrep` pinned by digest and `actions/checkout` pinned by SHA.
